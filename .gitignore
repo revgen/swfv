@@ -1,0 +1,11 @@
+# Python
+**/.venv
+**/build
+**/dist
+**/__pycache__
+**/*.egg-info
+**/*.pyc
+
+# Common
+*.log
+*.tmp
