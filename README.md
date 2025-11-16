@@ -1,5 +1,9 @@
 # Simple Web File Viewer
 
+
+
+* [Demo site](https://revgen.github.io/swfv/)
+
 ## Install
 
 ```bash

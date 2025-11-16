@@ -46,10 +46,16 @@ footer {
     color: light-dark(var(--light-color2), var(--dark-color2));
 }
 
-content h1, content h2 {
+content h1 {
   margin: 0;
-  padding: 15px 0;
+  padding: 10px 0;
+  font-size: x-large;
 }
+ content h2 {
+  margin: 0;
+  padding: 10px 0;
+  font-size: large;
+ }
 a, a:visited, a:hover, a:active {
     text-decoration: none;
 }
@@ -182,10 +188,11 @@ input:checked + .slider:before {
         width: 98%;
     }
     content h1 {
-      padding: 15px 0;
-      font-size: medium;
+      padding: 5px 0;
+      font-size: large;
     }
     content h2 {
-      padding: 15px 0;
+      padding: 5px 0;
+      font-size: medium;
     }
 }

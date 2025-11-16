@@ -77,6 +77,7 @@ def run_cli(args: list[str] | None = None) -> int:
                 recursive=pargs.recursive,
                 name=pargs.name,
                 display_name=pargs.display_name,
+                quiet=pargs.quiet,
                 force=pargs.force,
                 theme=pargs.theme,
                 flags=[v.strip().lower() for v in (pargs.flag or "").split(",") if v])
