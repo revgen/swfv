@@ -1,8 +1,8 @@
-name: deploy-pages
+name: create-demo-site
 
 on:
-  push:
-    branches: ["master"]
+  # push:
+  #   branches: ["master"]
   workflow_dispatch:
 
 permissions:
@@ -15,7 +15,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  deploy:
+  deploy-pages:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -29,12 +29,31 @@ jobs:
         run: |
           sudo apt-get install -y tree
           python --version
-      - name: Prepare build system
+          make init
+      - name: Build package
+        run: |
+          make build
+      - name: Prepare demo site
         run: |
           mkdir -p ./_site/
           cd ./_site/
-          echo "<html><body><h1>WORKS</h1><pre>" > ./index.html
-          tree >> ./index.html
+          git clone --depth 1 https://github.com/pallets/flask.git
+          git clone --depth 1 https://github.com/freeCodeCamp/freeCodeCamp.git
+          git clone --depth 1 https://github.com/EbookFoundation/free-programming-books.git
+          git clone --depth 1 https://github.com/OpenPrinting/sample-files.git
+          git clone --depth 1 https://github.com/mediaelement/mediaelement-files.git
+          rm -rf */.git*
+
+          echo -e "[InternetShortcut]\nURL=https://flask.palletsprojects.com" > flask-project.url
+          echo -e "[InternetShortcut]\nURL=https://github.com/pallets/flask" > flask-repository.url
+      - name: Show pages content
+        run: |
+          cd ./_site/
+          tree -L 2
+      - name: Build site
+        run: |
+          cd ./_site
+          yes | ../.venv/bin/swfv --force --debug --name "swfv-demo" --display-name "Simple Web File Viewer (Demo)"
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

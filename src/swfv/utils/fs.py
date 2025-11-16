@@ -57,9 +57,9 @@ class FileType(Enum):
 
 class FileUtil:
     FILE_TYPES_TEXT = ("txt", "text", "html", "htm", "md", "markdown", "mkd", "rst", "ad", "asc", "asciidoc")
-    FILE_TYPES_CODE = ("py", "java", "cpp", "c", "h", "pl")
+    FILE_TYPES_CODE = ("py", "java", "cpp", "c", "h", "hpp", "cs", "pl", "ts", "")
     FILE_TYPES_EBOOK = ("epub", "azw", "fb2", "fb3")
-    FILE_TYPES_SHELL = ("csh", "sh", "zsh")
+    FILE_TYPES_SHELL = ("csh", "sh", "zsh", "bash", "ash")
     FILE_TYPES_CONFIG = ("yaml", "yml", "config", "cfg", "conf", "properties", "toml", "tml")
     FILE_TYPES_LINK = ("url", "link")
 
