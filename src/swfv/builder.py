@@ -21,7 +21,7 @@ logger = logging.getLogger()
 
 STARTED = datetime.now(tz=timezone.utc)
 STARTED_ISO = STARTED.isoformat()[:19]
-STARTED_ID = STARTED.strftime("%Y%m%d%H%M%S")
+STARTED_ID = STARTED.strftime("%y%m%d%H%M%S")
 
 
 @dataclass
@@ -98,11 +98,10 @@ class PageBuilder:
             items.append(item)
             total_hash.append(p.hash)
 
-        dir_count = len(meta.directories)
-        files_count = len(meta.files)
+        counter = len(meta.directories) * 1000 + len(meta.files)
         page_hash = self.hash_util.get_hash("".join(total_hash))
         page_size = FileUtil.size_format(meta.size, round=True)
-        page_id = f"{STARTED_ID}-{page_size.lower()[:-1]}-d{dir_count:03d}f{files_count:03d}-{page_hash[:8]}"
+        page_id = f"{STARTED_ID[:10]}-{counter:06d}-{page_size.lower()[:-1]}-{page_hash[:6]}"
         path = "" if str(meta.path) in ("/", ".") else str(meta.path)
         page_content = page_tmpl.render({
             "title": f"{self.config.name}: {path}" if path else self.config.name,
