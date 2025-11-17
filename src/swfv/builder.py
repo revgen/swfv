@@ -98,10 +98,11 @@ class PageBuilder:
             items.append(item)
             total_hash.append(p.hash)
 
-        counter = len(meta.directories) * 1000 + len(meta.files)
+        dir_count = len(meta.directories)
+        file_count = len(meta.files)
         page_hash = self.hash_util.get_hash("".join(total_hash))
         page_size = FileUtil.size_format(meta.size, round=True)
-        page_id = f"{STARTED_ID[:10]}-{counter:06d}-{page_size.lower()[:-1]}-{page_hash[:6]}"
+        page_id = f"{page_hash[:8]}-d{dir_count}f{file_count}-{page_size.lower()[:-1]}"
         path = "" if str(meta.path) in ("/", ".") else str(meta.path)
         page_content = page_tmpl.render({
             "title": f"{self.config.name}: {path}" if path else self.config.name,

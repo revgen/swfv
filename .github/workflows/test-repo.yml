@@ -1,0 +1,33 @@
+name: test-repo
+
+on:
+  push:
+    branches: ["master"]
+  workflow_dispatch:
+
+jobs:
+  run-tests:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Prepare build system
+        run: |
+          sudo apt-get install -y tree
+          python --version
+          make init
+      - name: Prepare project space
+        run: |
+          make init
+      - name: Build project
+        run: |
+          make build
+      - name: Run linter
+        run: |
+          make lint
+      - name: Run unittests
+        run: |
+          make test

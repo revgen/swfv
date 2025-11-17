@@ -34,7 +34,7 @@ def _start_http_server(webroot: Path) -> int:
         print("*" * line_length)
         print("*", "!!! WARNING !!!".center(line_length - 4), "*")
         print("*", f"Web server was started: http://{host}:{port}".center(line_length - 4), "*")
-        print(f"*" * line_length)
+        print("*" * line_length)
         httpd = HTTPServer((host, port), SimpleHTTPRequestHandler)
         httpd.serve_forever()
     except KeyboardInterrupt:

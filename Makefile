@@ -5,7 +5,7 @@
 
 default: help
 APP_NAME=swfv
-PYTHON_ORIGIN := $(shell which python3 || which python)
+PYTHON_ORIGIN := $(shell which python3.13 || which python3.12 || which python3.11 || which python3 || which python)
 VENV=.venv
 PYTHON=$(VENV)/bin/python
 OS = $(shell uname -s)
@@ -28,8 +28,11 @@ endif
 #-----------------------------------------------------------------------------
 init:           ## Prepeare development environemnt
 	@make clean >/dev/null
-	@echo "Initialize environemnt in $(PWD)..."
+	@echo "Initialize environemnt in $(PWD) with $(PYTHON_ORIGIN)..."
 	@$(PYTHON_ORIGIN) -m venv $(VENV)
+	@$(PYTHON) --version
+	@$(PYTHON) -m pip install --upgrade pip
+	@$(PYTHON) -m pip --version
 	@echo "Virtual environent $(VENV) was created. Install dependencies..."
 	@$(PYTHON) -m pip install uv ruff
 	@echo "Environment initialization complete"
