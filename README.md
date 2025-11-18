@@ -6,7 +6,10 @@ enabling users to navigate directories, preview files in the browser, and downlo
 [![Test-Repo](https://github.com/revgen/swfv/actions/workflows/test-repo.yml/badge.svg)](https://github.com/revgen/swfv/actions/workflows/test-repo.yml)
 [![Create-Demo-Site](https://github.com/revgen/swfv/actions/workflows/build-pages.yml/badge.svg)](https://github.com/revgen/swfv/actions/workflows/build-pages.yml)
 
-You can see an example [DEMO](https://revgen.github.io/swfv/) pages with the result content.
+You can see [DEMO](https://revgen.github.io/swfv/) site with the result content.
+
+[![SWFV Screenshot](./docs/swfv-screenshot-01.png)](https://revgen.github.io/swfv/)
+[![SWFV Screenshot](./docs/swfv-screenshot-02.png)](https://revgen.github.io/swfv/)
 
 ## Install
 
