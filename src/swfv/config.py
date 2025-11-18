@@ -13,6 +13,7 @@ from swfv.utils.common import BaseJsonEncoder
 logger = logging.getLogger()
 __app_name__ = "swfv"
 __version__ = "0.1.2"
+__url__ = "http://github.com/revgen/swfv"
 
 class ConfigFlag(Enum):
     SHOW_HIDDEN = "show-hidden"
@@ -42,6 +43,7 @@ class ConfigFlag(Enum):
 class Config:
     APP_NAME = __app_name__
     APP_VERSION = __version__
+    APP_URL = __url__
     APP_DIR = Path(__file__).parent
 
     DEF_META_FILE = ".meta"

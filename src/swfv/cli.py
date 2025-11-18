@@ -19,10 +19,6 @@ from swfv.extra import cleanup
 logger = logging.getLogger()
 
 
-def _print_version() -> None:
-    print(f"{Config.APP_NAME} v{Config.APP_VERSION}")
-
-
 def _start_http_server(webroot: Path) -> int:
     try:
         from http.server import HTTPServer, SimpleHTTPRequestHandler
@@ -43,24 +39,40 @@ def _start_http_server(webroot: Path) -> int:
 
 
 def run_cli(args: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("source", default=str(Path.cwd()), nargs="?")
-    parser.add_argument("--output", "-o", default="")
-    # parser.add_argument("command", type=Command, choices=list(Command),
-    #                     default=Command.open, nargs="?")
-    # parser.add_argument("--no-key-file", action="store_true", default=False)
+    parser = argparse.ArgumentParser(
+        description=(f"Simple web file viewer service.{os.linesep}"
+        "A static-site generator that builds HTML pages with a file index, "
+        "enabling users to navigate directories, preview files in the browser, and download them via HTTP."),
+        epilog=f"{Config.APP_NAME} v{Config.APP_VERSION} {Config.APP_URL}",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    parser.add_argument("source", default=str(Path.cwd()), nargs="?",
+                        help="Path to the directory that serves as the input for indexing and page generation (default: current)")
+    parser.add_argument("--output", "-o", default="",
+                        help="Path to the directory used as the destination for all generated site content. (default: <source>)")
     parser.add_argument("--debug", "-D", action="store_true",
-                        default=os.environ.get("DEBUG", "").lower().strip() in ("true", "on"))
-    parser.add_argument("--recursive", "-r", action="store_true")
-    parser.add_argument("--name", "-n", default=Config.APP_NAME)
-    parser.add_argument("--display-name", "-d", default=Config.APP_NAME)
-    parser.add_argument("--quiet", "-Q", action="store_true")
-    parser.add_argument("--force", "-F", action="store_true")
-    parser.add_argument("--cleanup", "-C", action="store_true")
-    parser.add_argument("--serve", "-S", action="store_true")
-    parser.add_argument("--version", "-v", action="store_true")
-    parser.add_argument("--theme", "-T", default="default")
-    parser.add_argument("--flag", "-f", help=f"Values: {ConfigFlag.values()}")
+                        default=os.environ.get("DEBUG", "").lower().strip() in ("true", "on"),
+                        help="Show more verbose log output")
+    # parser.add_argument("--recursive", "-r", action="store_true")
+    parser.add_argument("--name", "-n", default=Config.APP_NAME,
+                        help=f"Specifies the short name assigned to the generated static site (default: {Config.APP_NAME})")
+    parser.add_argument("--display-name", "-d", default=Config.APP_NAME,
+                        help=f"Specifies the dysplay name assigned to the generated static site (default: {Config.APP_NAME})")
+    parser.add_argument("--quiet", "-Q", action="store_true",
+                        help="Do not show a confirmation prompt")
+    parser.add_argument("--force", "-F", action="store_true",
+                        help="Force overwrite of index.html files in the destination directory")
+    parser.add_argument("--cleanup", "-C", action="store_true",
+                        help="Cleanup in the desctination directory, remove all generated files")
+    parser.add_argument("--serve", "-S", action="store_true",
+                        help="Starts a basic HTTP server that serves files from the destination directory.")
+    parser.add_argument("--version", "-v", action="store_true",
+                        help="Displays the current version of the tool")
+    parser.add_argument("--theme", "-T", default="default",
+                        help="Specifies the directory containing a custom theme (default: embedded theme)")
+    possible_flags = ",".join(sorted(ConfigFlag.values()))
+    parser.add_argument("--flag", "-f",
+                        help=f"Extra options to fine-tune the output of the generated pages: {possible_flags}")
     pargs = parser.parse_args(args or sys.argv[1:])
     if pargs.debug:
         logger.setLevel(logging.DEBUG)
@@ -68,13 +80,13 @@ def run_cli(args: list[str] | None = None) -> int:
         logger.debug(f"Arguments: {json.dumps(args_print)}")
 
     if pargs.version:
-        _print_version()
+        print(f"{Config.APP_NAME} v{Config.APP_VERSION}")
         return 0
 
     logger.info(f"Start {Config.APP_NAME} v{Config.APP_VERSION}")
     cfg = Config(source=pargs.source,
                 output=pargs.output,
-                recursive=pargs.recursive,
+                recursive=True, # pargs.recursive,
                 name=pargs.name,
                 display_name=pargs.display_name,
                 quiet=pargs.quiet,
