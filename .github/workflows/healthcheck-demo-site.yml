@@ -1,0 +1,25 @@
+name: demo-site-healthcheck
+
+on:
+  schedule:
+    - cron: "15 * * * *"
+  workflow_dispatch:
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Check demo site
+        run: |
+          curl -kL https://revgen.github.io/swfv > root-index.tmp
+          grep "ID: " root-index.tmp
+          grep "Generated" root-index.tmp
+          grep "<td " | grep "flask" root-index.tmp
+          grep "<td " | grep "free-programming-books" root-index.tmp
+      - name: Send metrics
+        env:
+          HC_KEY: ${{ secrets.DEMO_SITE_HC_KEY }}
+        run: |
+          curl -m 10 --retry 5 https://hc-ping.com/$HC_KEY)
