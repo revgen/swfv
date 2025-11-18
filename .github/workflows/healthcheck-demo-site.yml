@@ -2,11 +2,11 @@ name: demo-site-healthcheck
 
 on:
   schedule:
-    - cron: "15 * * * *"
+    - cron: "*/15 * * * *"
   workflow_dispatch:
 
 jobs:
-  run-tests:
+  run-demo-site-healthcheck:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -22,4 +22,4 @@ jobs:
         env:
           HC_KEY: ${{ secrets.DEMO_SITE_HC_KEY }}
         run: |
-          curl -m 10 --retry 5 https://hc-ping.com/$HC_KEY)
+          curl -m 10 --retry 5 https://hc-ping.com/$HC_KEY

@@ -5,6 +5,7 @@ enabling users to navigate directories, preview files in the browser, and downlo
 
 [![Test-Repo](https://github.com/revgen/swfv/actions/workflows/test-repo.yml/badge.svg)](https://github.com/revgen/swfv/actions/workflows/test-repo.yml)
 [![Create-Demo-Site](https://github.com/revgen/swfv/actions/workflows/build-pages.yml/badge.svg)](https://github.com/revgen/swfv/actions/workflows/build-pages.yml)
+[![Demo-Site-Healthcheck](https://healthchecks.io/b/2/4d34911f-f2e2-41f8-8247-f348fb6b077b.svg)](https://revgen.github.io/swfv/)
 
 You can see [DEMO](https://revgen.github.io/swfv/) site with the result content.
 
